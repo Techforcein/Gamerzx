@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mob Rush - Crowd Runner Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Canvas for Three.js -->
+        <canvas id="game-canvas"></canvas>
+        
+        <!-- UI Overlay -->
+        <div id="ui-overlay">
+            <!-- Top HUD -->
+            <div id="hud" class="hidden">
+                <div id="level-display">
+                    <span class="hud-label">LEVEL</span>
+                    <span id="level-number">1</span>
+                </div>
+                <div id="crowd-display">
+                    <span class="hud-icon">👥</span>
+                    <span id="crowd-count">5</span>
+                </div>
+                <div id="coin-display">
+                    <span class="hud-icon">🪙</span>
+                    <span id="coin-count">0</span>
+                </div>
+            </div>
+            
+            <!-- Floating text container -->
+            <div id="floating-texts"></div>
+            
+            <!-- Start Screen -->
+            <div id="start-screen" class="screen">
+                <div class="screen-content">
+                    <h1 class="game-title">MOB RUSH</h1>
+                    <p class="game-subtitle">Grow Your Army. Choose The Right Gates.<br>Win The Battle.</p>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-label">Level</span>
+                            <span id="menu-level" class="stat-value">1</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Coins</span>
+                            <span id="menu-coins" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Best Score</span>
+                            <span id="menu-best" class="stat-value">0</span>
+                        </div>
+                    </div>
+                    <button id="play-button" class="btn-primary">▶ PLAY</button>
+                    <button id="sound-toggle" class="btn-sound">🔊 Sound: ON</button>
+                </div>
+            </div>
+            
+            <!-- Win Screen -->
+            <div id="win-screen" class="screen hidden">
+                <div class="screen-content">
+                    <h2 class="screen-title victory">LEVEL COMPLETE!</h2>
+                    <div class="result-stats">
+                        <p>Survivors: <span id="win-survivors">0</span></p>
+                        <p>Coins Earned: <span id="win-coins">0</span></p>
+                    </div>
+                    <button id="next-level-button" class="btn-primary">NEXT LEVEL →</button>
+                </div>
+            </div>
+            
+            <!-- Lose Screen -->
+            <div id="lose-screen" class="screen hidden">
+                <div class="screen-content">
+                    <h2 class="screen-title defeat">GAME OVER</h2>
+                    <p class="lose-message">Your army has been defeated!</p>
+                    <button id="retry-button" class="btn-primary">↻ RETRY</button>
+                    <button id="menu-button" class="btn-secondary">MAIN MENU</button>
+                </div>
+            </div>
+            
+            <!-- Battle VS Display -->
+            <div id="battle-display" class="hidden">
+                <div id="player-battle">
+                    <span class="battle-label blue">PLAYER</span>
+                    <span id="player-battle-count" class="battle-count">0</span>
+                </div>
+                <div id="vs-display">VS</div>
+                <div id="enemy-battle">
+                    <span class="battle-label red">ENEMY</span>
+                    <span id="enemy-battle-count" class="battle-count">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
