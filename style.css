@@ -1,0 +1,374 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    touch-action: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#game-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+#game-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#ui-overlay .screen {
+    pointer-events: all;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* HUD Styles */
+#hud {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 12px 24px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+#hud > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.hud-label {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.hud-icon {
+    font-size: 24px;
+}
+
+/* Screen Styles */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 20;
+}
+
+.screen-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px;
+    border-radius: 30px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.game-title {
+    font-size: 48px;
+    color: white;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.game-subtitle {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-value {
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+}
+
+.screen-title {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.victory {
+    color: #4ade80;
+}
+
+.defeat {
+    color: #f87171;
+}
+
+.result-stats {
+    margin: 20px 0;
+    color: white;
+    font-size: 20px;
+}
+
+.result-stats p {
+    margin: 10px 0;
+}
+
+.lose-message {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+/* Button Styles */
+.btn-primary, .btn-secondary, .btn-sound {
+    padding: 15px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
+    pointer-events: all;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: white;
+    box-shadow: 0 8px 25px rgba(251, 191, 36, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(251, 191, 36, 0.6);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.btn-sound {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+/* Battle Display */
+#battle-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px 40px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    z-index: 15;
+    animation: battleAppear 0.5s ease-out;
+}
+
+@keyframes battleAppear {
+    from {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+#player-battle, #enemy-battle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.battle-label {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.battle-label.blue {
+    color: #60a5fa;
+}
+
+.battle-label.red {
+    color: #f87171;
+}
+
+.battle-count {
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    animation: countPulse 1s infinite;
+}
+
+@keyframes countPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+#vs-display {
+    font-size: 32px;
+    font-weight: bold;
+    color: #fbbf24;
+}
+
+/* Floating Text Animation */
+.floating-text {
+    position: absolute;
+    pointer-events: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: floatUp 1.5s ease-out forwards;
+    z-index: 15;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 36px;
+    }
+    
+    .game-subtitle {
+        font-size: 14px;
+    }
+    
+    .screen-content {
+        padding: 25px;
+    }
+    
+    .btn-primary, .btn-secondary {
+        padding: 12px 30px;
+        font-size: 18px;
+    }
+    
+    #hud {
+        padding: 8px 15px;
+        gap: 12px;
+        font-size: 16px;
+        top: 10px;
+    }
+    
+    #battle-display {
+        padding: 15px 25px;
+        gap: 20px;
+    }
+    
+    .battle-count {
+        font-size: 30px;
+    }
+}
